@@ -171,6 +171,35 @@ export async function getStateCounts(): Promise<{ state: string; count: number }
     .sort((a, b) => b.count - a.count)
 }
 
+export async function getListingsByCity(city: string, state: string, limit = 24): Promise<Listing[]> {
+  const supabase = createStaticClient()
+  const { data, error } = await supabase
+    .from('dpc_listings')
+    .select('*')
+    .ilike('city', city)
+    .eq('state', state.toUpperCase())
+    .eq('is_active', true)
+    .eq('is_approved', true)
+    .limit(limit)
+
+  if (error) return []
+  return sortByTier((data as Listing[]) ?? [])
+}
+
+export async function getCityCount(city: string, state: string): Promise<number> {
+  const supabase = createStaticClient()
+  const { count, error } = await supabase
+    .from('dpc_listings')
+    .select('*', { count: 'exact', head: true })
+    .ilike('city', city)
+    .eq('state', state.toUpperCase())
+    .eq('is_active', true)
+    .eq('is_approved', true)
+
+  if (error) return 0
+  return count ?? 0
+}
+
 export async function getAdminListings(): Promise<Listing[]> {
   const supabase = await createClient()
   const { data, error } = await supabase
