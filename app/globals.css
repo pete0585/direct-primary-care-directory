@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-surface font-body text-gray-800;
+  }
+}
+
+@layer components {
+  .prose-guide {
+    @apply font-body text-gray-700 leading-relaxed;
+  }
+  .prose-guide h2 {
+    @apply font-display text-brand-navy text-lg font-bold mt-8 mb-3;
+  }
+  .prose-guide p {
+    @apply mb-4;
+  }
+  .prose-guide ul {
+    @apply list-disc pl-5 mb-4 space-y-1;
+  }
+}
