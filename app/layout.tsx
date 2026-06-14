@@ -11,7 +11,7 @@ const orbitron = Orbitron({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.directprimarycarefinder.com'),
+  metadataBase: new URL('https://directprimarycarefinder.com'),
   title: {
     default: 'Direct Primary Care Finder | Find a DPC Doctor Near You',
     template: '%s | DirectPrimaryCareFinder.com',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     images: [{ url: '/og-image.png', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image' },
-  alternates: { canonical: 'https://www.directprimarycarefinder.com' },
+  alternates: { canonical: 'https://directprimarycarefinder.com' },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
