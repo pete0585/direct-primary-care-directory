@@ -5,6 +5,7 @@ import { getListingBySlug, getAllSlugs } from '@/lib/data'
 import { formatFeeRange, formatSpecialty, stateNameFromAbbr } from '@/lib/utils'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
+import { createServiceClient } from '@/lib/supabase/server'
 
 interface PageProps {
   params: Promise<{ slug: string }>
@@ -43,6 +44,16 @@ export default async function ListingDetailPage({ params }: PageProps) {
   if (!listing) notFound()
 
   const stateName = stateNameFromAbbr(listing.state)
+
+  const supabase = await createServiceClient()
+  const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
+  const { count: viewCount } = await supabase
+    .from('listing_views')
+    .select('*', { count: 'exact', head: true })
+    .eq('directory_slug', 'direct-primary-care')
+    .eq('listing_id', String(listing.id))
+    .gte('viewed_at', monthStart)
+  const monthlyViews = viewCount ?? 0
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -125,7 +136,7 @@ export default async function ListingDetailPage({ params }: PageProps) {
           <span className="text-gray-700">{listing.full_name}</span>
         </nav>
 
-        <ListingDetail listing={listing} />
+        <ListingDetail listing={listing} monthlyViews={monthlyViews} />
       </div>
     </>
   )
