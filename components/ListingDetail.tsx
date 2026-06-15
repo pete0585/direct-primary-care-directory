@@ -6,17 +6,20 @@ import {
 } from 'lucide-react'
 import type { Listing } from '@/lib/types'
 import { formatFeeRange, formatSpecialty, formatService, tierBadge } from '@/lib/utils'
+import { ViewTracker } from './ViewTracker'
 
 interface ListingDetailProps {
   listing: Listing
+  monthlyViews: number
 }
 
-export default function ListingDetail({ listing }: ListingDetailProps) {
+export default function ListingDetail({ listing, monthlyViews }: ListingDetailProps) {
   const badge = tierBadge(listing.listing_tier)
-  const isVerifiedOrFeatured = listing.listing_tier !== 'free'
+  const isClaimed = listing.listing_tier !== 'unclaimed' && listing.listing_tier != null
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <ViewTracker listingId={String(listing.id)} directorySlug='direct-primary-care' />
       {/* Main content */}
       <div className="lg:col-span-2 space-y-6">
         {/* Header */}
@@ -84,7 +87,7 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
         </div>
 
         {/* Bio */}
-        {isVerifiedOrFeatured && listing.bio && (
+        {isClaimed && listing.bio && (
           <div className="bg-white rounded-xl border border-surface-border p-6">
             <h2 className="font-display text-brand-navy font-bold mb-3 text-sm uppercase tracking-wide">About This Practice</h2>
             <p className="font-body text-gray-700 leading-relaxed">{listing.bio}</p>
@@ -92,7 +95,7 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
         )}
 
         {/* Services */}
-        {isVerifiedOrFeatured && listing.services_included.length > 0 && (
+        {isClaimed && listing.services_included.length > 0 && (
           <div className="bg-white rounded-xl border border-surface-border p-6">
             <h2 className="font-display text-brand-navy font-bold mb-4 text-sm uppercase tracking-wide">
               What&apos;s Included in Your Membership
@@ -173,55 +176,71 @@ export default function ListingDetail({ listing }: ListingDetailProps) {
 
       {/* Sidebar */}
       <div className="space-y-5">
+        {isClaimed && (
+          <div className='rounded-xl border border-blue-200 bg-blue-50 p-4'>
+            <p className='text-xs font-semibold uppercase tracking-wide text-blue-600'>Profile Activity</p>
+            <p className='mt-1 text-3xl font-bold text-blue-900'>{monthlyViews}</p>
+            <p className='text-sm text-blue-700'>people viewed your profile this month</p>
+            {listing.listing_tier === 'free' && (
+              <p className='mt-2 text-xs text-blue-600'>
+                0 could contact you.{' '}
+                <a href={`/claim/${listing.id}?upgrade=true`} className='underline font-medium'>
+                  Upgrade to be reachable →
+                </a>
+              </p>
+            )}
+          </div>
+        )}
+
         {/* Contact */}
         <div className="bg-white rounded-xl border border-surface-border p-5 sticky top-6">
           <h3 className="font-display text-brand-navy font-bold mb-4 text-sm uppercase tracking-wide">Contact</h3>
 
-          {listing.phone && (
-            <a
-              href={`tel:${listing.phone}`}
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface transition-colors mb-2"
-            >
-              <Phone className="w-4 h-4 text-brand-teal shrink-0" aria-label="phone" />
-              <span className="font-body text-gray-700 text-sm">{listing.phone}</span>
-            </a>
-          )}
-          {listing.website && (
-            <a
-              href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface transition-colors mb-2"
-            >
-              <Globe className="w-4 h-4 text-brand-teal shrink-0" aria-label="website" />
-              <span className="font-body text-gray-700 text-sm truncate">Visit Website</span>
-            </a>
-          )}
-
-          {listing.listing_tier === 'free' ? (
-            <div className="mt-4 p-4 bg-surface rounded-lg">
-              <p className="font-body text-gray-600 text-xs leading-relaxed mb-3">
-                This practice hasn&apos;t claimed their listing yet. Contact them directly or check their website.
-              </p>
-              <Link
-                href={`/claim/${listing.id}`}
-                className="block text-center bg-brand-navy hover:bg-brand-navy-dark text-white font-body font-semibold text-sm px-4 py-2.5 rounded-lg transition-colors"
-              >
-                Are you this doctor? Claim listing →
-              </Link>
-            </div>
+          {isClaimed ? (
+            <>
+              {listing.phone && (
+                <a
+                  href={`tel:${listing.phone}`}
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface transition-colors mb-2"
+                >
+                  <Phone className="w-4 h-4 text-brand-teal shrink-0" aria-label="phone" />
+                  <span className="font-body text-gray-700 text-sm">{listing.phone}</span>
+                </a>
+              )}
+              {listing.website && (
+                <a
+                  href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface transition-colors mb-2"
+                >
+                  <Globe className="w-4 h-4 text-brand-teal shrink-0" aria-label="website" />
+                  <span className="font-body text-gray-700 text-sm truncate">Visit Website</span>
+                </a>
+              )}
+              {listing.listing_tier !== 'free' && (
+                <div className="mt-4">
+                  <div className="flex items-center gap-2 mb-3">
+                    <ShieldCheck className="w-4 h-4 text-brand-teal" aria-label="verified" />
+                    <p className="font-body text-gray-500 text-xs">Verified DPC practice</p>
+                  </div>
+                </div>
+              )}
+            </>
           ) : (
-            <div className="mt-4">
-              <div className="flex items-center gap-2 mb-3">
-                <ShieldCheck className="w-4 h-4 text-brand-teal" aria-label="verified" />
-                <p className="font-body text-gray-500 text-xs">Verified DPC practice</p>
-              </div>
+            <div className='rounded-lg border border-gray-200 bg-gray-50 p-4 text-center'>
+              <p className='text-sm text-gray-500'>
+                Phone, website, and bio are only visible after this provider claims their listing.
+              </p>
+              <a href={`/claim/${listing.id}`} className='mt-2 inline-block text-sm font-medium text-blue-600 hover:underline'>
+                Is this you? Claim your free profile →
+              </a>
             </div>
           )}
         </div>
 
         {/* Upgrade prompt for claimed free listings */}
-        {listing.claimed_at && listing.listing_tier === 'free' && (
+        {isClaimed && listing.listing_tier === 'free' && (
           <div className="bg-brand-mint rounded-xl border border-brand-teal/20 p-5">
             <h3 className="font-display text-brand-navy font-bold text-sm mb-2">Boost Your Visibility</h3>
             <p className="font-body text-gray-600 text-xs leading-relaxed mb-3">
