@@ -59,7 +59,16 @@ export default async function ClaimPage({ params, searchParams }: PageProps) {
       .update({ claimed_at: new Date().toISOString(), claimed_by: claim.email, updated_at: new Date().toISOString() })
       .eq('id', id)
 
-    return <ClaimVerify listingId={id} />
+    const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
+    const { count: viewCount } = await supabase
+      .from('listing_views')
+      .select('*', { count: 'exact', head: true })
+      .eq('directory_slug', 'direct-primary-care')
+      .eq('listing_id', id)
+      .gte('viewed_at', monthStart)
+    const monthlyViews = viewCount ?? 0
+
+    return <ClaimVerify listingId={id} monthlyViews={monthlyViews} />
   }
 
   // Claim request form
