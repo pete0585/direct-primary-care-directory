@@ -3,6 +3,8 @@ import Stripe from 'stripe'
 import { stripe } from '@/lib/stripe'
 import { createServiceClient } from '@/lib/supabase/server'
 
+const HANDLED_EVENTS = new Set(['checkout.session.completed'])
+
 export async function POST(req: NextRequest) {
   const body = await req.text()
   const sig = req.headers.get('stripe-signature')
@@ -18,6 +20,10 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Webhook signature verification failed'
     return NextResponse.json({ error: message }, { status: 400 })
+  }
+
+  if (!HANDLED_EVENTS.has(event.type)) {
+    return NextResponse.json({ received: true })
   }
 
   const supabase = await createServiceClient()
@@ -50,61 +56,6 @@ export async function POST(req: NextRequest) {
           tier,
           status: 'paid',
         })
-
-        break
-      }
-
-      case 'customer.subscription.updated': {
-        const sub = event.data.object as Stripe.Subscription
-        const tier = sub.metadata?.tier
-        const listingId = sub.metadata?.listing_id
-
-        if (!listingId) break
-
-        const isActive = sub.status === 'active'
-        await supabase
-          .from('dpc_listings')
-          .update({
-            listing_tier: isActive && tier ? tier : 'free',
-            subscription_expires_at: isActive
-              ? new Date(sub.current_period_end * 1000).toISOString()
-              : null,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', listingId)
-
-        break
-      }
-
-      case 'customer.subscription.deleted': {
-        const sub = event.data.object as Stripe.Subscription
-        const listingId = sub.metadata?.listing_id
-
-        if (!listingId) break
-
-        await supabase
-          .from('dpc_listings')
-          .update({
-            listing_tier: 'free',
-            stripe_subscription_id: null,
-            subscription_expires_at: null,
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', listingId)
-
-        break
-      }
-
-      case 'invoice.payment_failed': {
-        const invoice = event.data.object as Stripe.Invoice
-        const sub = invoice.subscription
-
-        if (sub && typeof sub === 'string') {
-          await supabase
-            .from('dpc_listings')
-            .update({ listing_tier: 'free', updated_at: new Date().toISOString() })
-            .eq('stripe_subscription_id', sub)
-        }
 
         break
       }
