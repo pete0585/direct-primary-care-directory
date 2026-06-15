@@ -1,11 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createServiceClient } from '@/lib/supabase/server'
+import crypto from 'crypto'
+
+function verifyResendWebhook(body: string, req: NextRequest, secret: string): boolean {
+  const msgId = req.headers.get('svix-id')
+  const msgTimestamp = req.headers.get('svix-timestamp')
+  const msgSignature = req.headers.get('svix-signature')
+
+  if (!msgId || !msgTimestamp || !msgSignature) return false
+
+  const now = Math.floor(Date.now() / 1000)
+  const timestamp = parseInt(msgTimestamp, 10)
+  if (isNaN(timestamp) || Math.abs(now - timestamp) > 300) return false
+
+  const signedContent = `${msgId}.${msgTimestamp}.${body}`
+  const secretBytes = Buffer.from(secret.replace('whsec_', ''), 'base64')
+  const sig = crypto.createHmac('sha256', secretBytes).update(signedContent).digest('base64')
+  const expected = `v1,${sig}`
+  return msgSignature.split(' ').some(s => s === expected)
+}
 
 export async function POST(req: NextRequest) {
-  let payload: Record<string, unknown>
+  const body = await req.text()
 
+  const webhookSecret = process.env.INBOUND_WEBHOOK_SECRET
+  if (webhookSecret) {
+    if (!verifyResendWebhook(body, req, webhookSecret)) {
+      return NextResponse.json({ error: 'Invalid webhook signature' }, { status: 401 })
+    }
+  }
+
+  let payload: Record<string, unknown>
   try {
-    payload = await req.json() as Record<string, unknown>
+    payload = JSON.parse(body) as Record<string, unknown>
   } catch {
     return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 })
   }
