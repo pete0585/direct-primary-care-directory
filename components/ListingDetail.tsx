@@ -15,7 +15,7 @@ interface ListingDetailProps {
 
 export default function ListingDetail({ listing, monthlyViews }: ListingDetailProps) {
   const badge = tierBadge(listing.listing_tier)
-  const isClaimed = listing.listing_tier !== 'unclaimed' && listing.listing_tier != null
+  const isClaimed = listing.listing_tier !== 'free' && listing.listing_tier != null
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
