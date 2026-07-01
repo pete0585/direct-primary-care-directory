@@ -55,6 +55,22 @@ const STATES: StateInfo[] = [
     cities: ['Seattle', 'Spokane', 'Tacoma'],
     landscape: "Washington passed DPC-enabling legislation that exempts DPC arrangements from the insurance code. The Washington State Medical Association supports DPC physicians. Seattle-area DPC practices frequently serve Amazon and Microsoft contractors, startup founders, and other tech professionals with variable income who prefer the predictability of DPC membership over complex insurance situations.",
   },
+  {
+    abbr: 'NC',
+    name: 'North Carolina',
+    slug: 'nc',
+    summary: "North Carolina has emerged as one of the fastest-adopting DPC states in the Southeast, with 80+ practices running from Charlotte to Raleigh and strong clusters in the Research Triangle. NC's large uninsured and underinsured population, combined with a physician community that was early to embrace the model, has built a DPC market that continues to expand across the state.",
+    cities: ['Charlotte', 'Raleigh', 'Durham', 'Greensboro', 'Asheville'],
+    landscape: "North Carolina's regulatory environment treats DPC arrangements as outside the insurance code, giving physicians a clear legal framework. The NC Medical Society has supported DPC physician members. The Research Triangle's concentration of tech employers, university staff, and self-employed professionals creates a natural DPC demographic — many of whom are on HDHPs where they pay full price for primary care anyway. Charlotte's financial services sector similarly drives demand for accessible, unhurried primary care.",
+  },
+  {
+    abbr: 'OH',
+    name: 'Ohio',
+    slug: 'oh',
+    summary: "Ohio has 60+ DPC practices concentrated in Columbus, Cleveland, Cincinnati, and their suburbs. Ohio's aging population and high rates of chronic disease — including diabetes and cardiovascular disease — make DPC's care coordination model particularly valuable. Cleveland Clinic and Ohio State Wexner Medical Center dominate hospital care, but that dominance leaves the independent primary care niche wide open for DPC physicians.",
+    cities: ['Columbus', 'Cleveland', 'Cincinnati', 'Dayton', 'Akron'],
+    landscape: "Ohio has a permissive regulatory environment for DPC, treating direct-pay primary care arrangements outside the insurance framework. Columbus's rapidly growing professional population, Cleveland's large healthcare workforce (many of whom seek DPC for their own families), and Cincinnati's cross-border suburban sprawl have all created strong DPC markets. Ohio DPC practices frequently emphasize chronic disease management, care coordination, and preventive care — addressing the state's documented health challenges with the unhurried DPC model.",
+  },
 ]
 
 interface PageProps {

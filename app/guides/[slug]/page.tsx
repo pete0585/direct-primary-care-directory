@@ -269,6 +269,70 @@ const GUIDES: Guide[] = [
       },
     ],
   },
+  {
+    slug: 'dpc-for-chronic-disease',
+    title: 'How Direct Primary Care Works for Chronic Disease Management',
+    description: 'DPC\'s unlimited-visit model is uniquely suited to chronic disease care — more time with your doctor, no per-visit costs, and proactive monitoring. Here\'s what it means for diabetes, hypertension, thyroid disease, and other conditions.',
+    content: `
+      <h2>Why Chronic Disease Patients Struggle With Traditional Primary Care</h2>
+      <p>The standard primary care visit is 10–15 minutes. For a healthy patient coming in for a cold, that's usually enough. For a patient managing type 2 diabetes, hypertension, and hypothyroidism simultaneously, it's woefully inadequate. Traditional insurance-based practices see 2,000–3,000 patients per physician — the economics of that model create chronic disease care that's reactive rather than proactive. You wait three months for a follow-up, get a rushed lab review, and leave without the conversation your condition actually requires.</p>
+      <p>The result: patients with chronic conditions end up under-managed at the primary care level, leading to preventable complications, more specialist visits, and ultimately higher total healthcare costs. The 10-minute appointment isn't cruelty — it's math. A physician billing insurance for 25 patients per day can't afford to spend 30 minutes on any one of them.</p>
+
+      <h2>What DPC Changes for Chronic Disease Patients</h2>
+      <p>DPC changes the underlying economics. When a physician has 300–600 patients paying a flat monthly membership instead of 2,500 patients billed per visit, the incentives flip. Your physician now profits from keeping you healthy and out of the ER — not from billing another visit. The practical effects:</p>
+      <ul>
+        <li><strong>Unlimited visits included</strong> — if your blood pressure needs monthly monitoring, that's monthly visits with no copay. If your A1c is trending the wrong direction, you come in the next day, not in three months.</li>
+        <li><strong>Longer appointments</strong> — DPC visits are typically 30–60 minutes. Complex chronic disease patients routinely get the time their conditions require.</li>
+        <li><strong>Direct physician access</strong> — text your DPC doctor when your blood sugar readings look off. Get a response same day. Adjust your medication protocol without a formal appointment. This communication is included in the membership.</li>
+        <li><strong>Proactive outreach</strong> — DPC physicians frequently message patients between visits to review labs, flag trends, or check in after medication changes. This doesn't happen in insurance-based practices because there's no billing code for it.</li>
+        <li><strong>Wholesale labs and medications</strong> — managing a chronic condition means regular labs and often multiple medications. DPC practices negotiate direct wholesale pricing — HbA1c testing that costs $35 at a lab can cost $3–$6 through a DPC physician's wholesale account. Many generic medications cost $4–$10/month through DPC wholesale channels versus $30–$80 at retail pharmacies.</li>
+      </ul>
+
+      <h2>Best-Fit Chronic Conditions for DPC</h2>
+      <p>DPC works well for virtually any condition managed primarily at the primary care level. The strongest fits:</p>
+      <ul>
+        <li><strong>Type 2 diabetes</strong> — requires quarterly HbA1c checks, medication management, foot exams, cardiovascular risk monitoring. The regular touchpoints that diabetes demands are all included in DPC membership.</li>
+        <li><strong>Hypertension</strong> — blood pressure monitoring, medication titration, lifestyle counseling. Many DPC patients manage hypertension with minimal specialist involvement, supervised closely by their DPC physician.</li>
+        <li><strong>Hypothyroidism</strong> — TSH monitoring every 3–6 months, medication adjustments. Routine but requires consistent primary care access — a perfect fit for the DPC model.</li>
+        <li><strong>COPD</strong> — requires regular pulmonary function monitoring, rescue inhaler management, and frequent check-ins during exacerbations. DPC's direct access model is critical for COPD patients who deteriorate quickly.</li>
+        <li><strong>Anxiety and depression</strong> — medication management, talk check-ins, coordination with therapists. DPC physicians often manage mild-to-moderate mental health conditions directly, reducing the need for psychiatry referrals.</li>
+        <li><strong>Obesity and metabolic syndrome</strong> — DPC physicians with obesity medicine training can manage GLP-1 prescriptions, metabolic panels, and the ongoing coaching that weight management requires — all within membership.</li>
+      </ul>
+
+      <h2>How DPC Works With Specialist Care</h2>
+      <p>DPC doesn't replace specialists — it makes specialist care work better. Your DPC physician handles routine management and monitoring, refers you to a specialist when genuinely needed (rather than when it's the path of least resistance), preps you for specialist visits so you arrive with up-to-date labs and a clear question list, and debriefs the specialist's recommendations so you actually understand and implement them.</p>
+      <p>Many DPC patients find their specialist visit frequency decreases once they're in DPC — not because problems are ignored, but because their primary care physician is now managing the condition closely enough that specialist escalation is less often necessary. When you do see a specialist, it's for genuinely specialist-level decisions, not routine monitoring that primary care can handle.</p>
+      <p>Specialist visits are billed through your health insurance or health sharing plan — not your DPC membership. Your DPC physician manages the coordination, which is included.</p>
+
+      <h2>What to Ask a DPC Doctor About Your Specific Condition</h2>
+      <p>When evaluating a DPC practice for chronic disease management, ask these questions directly:</p>
+      <ul>
+        <li>"What is your approach to managing [your condition] within the membership?" — understand what's included versus what requires external billing.</li>
+        <li>"Do you have experience with [your condition], and what is your monitoring protocol?" — DPC physicians vary in sub-specialty interest; find one who is genuinely engaged with your condition.</li>
+        <li>"What labs do you manage in-house, and what are your wholesale prices for the labs I need regularly?" — for a diabetes patient, this question directly affects your total out-of-pocket cost.</li>
+        <li>"How do you handle urgent escalations — if my readings spike, what is your response time?" — DPC access is a key benefit, but practices vary in their messaging hours and response commitments.</li>
+        <li>"Do you coordinate with my current specialists?" — if you have an established endocrinologist or cardiologist, confirm the DPC physician will integrate with existing care rather than duplicate or contradict it.</li>
+      </ul>
+    `,
+    faqs: [
+      {
+        q: 'Is DPC worth it if I already have a specialist managing my chronic condition?',
+        a: 'Yes, in most cases. Even with an active specialist relationship, most chronic disease patients still need a primary care physician for medication management between specialist visits, acute illness care, preventive care, and care coordination. DPC fills that role more effectively than an insurance-based primary care practice — and often reduces the total number of specialist visits needed by improving primary care management of the condition.',
+      },
+      {
+        q: 'Can a DPC physician prescribe all the medications I need for my chronic condition?',
+        a: 'Yes. DPC physicians are licensed to prescribe any medication within their scope of practice — the same as any other primary care physician. The difference is that DPC practices often negotiate wholesale pricing on common generic medications, which can significantly reduce your out-of-pocket cost for maintenance prescriptions. Ask about their specific medication pricing for your condition\'s typical drug regimen.',
+      },
+      {
+        q: 'What if my chronic condition worsens and I need hospitalization?',
+        a: 'DPC covers primary care only — hospitalizations are handled through your health insurance or health sharing plan. However, your DPC physician will coordinate your hospital admission and discharge, communicate with hospitalists, review your discharge medications, and schedule a timely follow-up after you leave the hospital. Many DPC patients report that post-hospitalization coordination is one of the most valuable aspects of DPC for complex patients.',
+      },
+      {
+        q: 'How much do chronic disease patients typically save with DPC compared to traditional insurance-based primary care?',
+        a: 'Savings vary by condition and insurance situation, but the math often favors DPC strongly. A diabetes patient who visits primary care six times per year, has quarterly HbA1c labs, and takes two generic medications might spend $800–$1,200 per year in copays and lab costs under insurance. The same patient under DPC pays $600–$1,200 per year in membership fees — with those costs covering unlimited visits, the labs at wholesale, and sometimes the medications. The break-even point is often reached at three to four primary care visits per year.',
+      },
+    ],
+  },
 ]
 
 interface PageProps {

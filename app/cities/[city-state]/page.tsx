@@ -94,6 +94,14 @@ const CITIES: CityInfo[] = [
     city: 'Salt Lake City', state: 'Utah', stateAbbr: 'UT', slug: 'salt-lake-city-ut',
     blurb: "Salt Lake City's large proportion of self-employed residents and entrepreneurial culture make it a strong DPC market. Utah DPC practices often serve young families and health-conscious patients who want comprehensive primary care without insurance gatekeeping.",
   },
+  {
+    city: 'Knoxville', state: 'Tennessee', stateAbbr: 'TN', slug: 'knoxville-tn',
+    blurb: "East Tennessee has a strong tradition of independent physician practice, and Knoxville is at the center of it. While University of Tennessee Medical Center anchors regional hospital care, DPC practices fill the primary care gap for Knoxville's growing professional and research community — including Oak Ridge National Laboratory employees and UT faculty who prioritize direct physician access over insurance-gated care.",
+  },
+  {
+    city: 'Boise', state: 'Idaho', stateAbbr: 'ID', slug: 'boise-id',
+    blurb: "Boise is one of the fastest-growing cities in the US, fueled by an influx of remote workers and tech professionals from California and Washington who often come with an existing preference for DPC-style care. Idaho's no-income-tax environment leaves more disposable income for DPC memberships, and Boise's independent DPC practices offer same/next-day access that the dominant St. Luke's and St. Alphonsus hospital systems simply can't match for primary care.",
+  },
 ]
 
 interface PageProps {
