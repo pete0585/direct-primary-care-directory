@@ -333,6 +333,91 @@ const GUIDES: Guide[] = [
       },
     ],
   },
+  {
+    slug: 'dpc-cost-vs-insurance',
+    title: 'Direct Primary Care Cost vs Traditional Insurance: Is It Worth It?',
+    description: 'DPC costs $50–$150/month. Traditional insurance costs $400–$900/month — with copays, deductibles, and surprise bills on top. Here is an honest comparison of the full cost of care under each model.',
+    content: `
+      <h2>The True Cost of Traditional Insurance-Based Primary Care</h2>
+      <p>Your health insurance premium is only part of what you pay for primary care. The real cost includes: monthly premiums (often $400–$900/month for individual coverage on the marketplace or COBRA), copays for each visit ($20–$60 typical), coinsurance after your deductible (often 20–30% of the bill), and the deductible itself — which averages $1,763 for single coverage in employer plans in 2024. For many patients on HDHPs, they are effectively paying full price for every primary care visit until they hit their deductible.</p>
+
+      <h2>The True Cost of Direct Primary Care</h2>
+      <p>DPC membership fees range from $50 to $150 per month for adults. The membership covers unlimited primary care visits, direct physician access, and basic in-office procedures. Labs are offered at wholesale — often 80–95% below retail prices. Many DPC physicians also offer medications at wholesale cost.</p>
+      <p>DPC does not replace all insurance — you still need coverage for hospitalizations, specialist visits, and emergency care. Most DPC patients pair their membership with a low-cost catastrophic plan or health sharing arrangement.</p>
+
+      <h2>Side-by-Side Cost Comparison</h2>
+      <p>For a patient who uses primary care 6 times per year:</p>
+      <ul>
+        <li><strong>Traditional HDHP:</strong> $600/month premium + $300 in copays + $400 in labs + $150 in medications = ~$8,050/year</li>
+        <li><strong>DPC + Catastrophic plan:</strong> $75/month DPC + $300/month catastrophic insurance + $0 in copays + $60 in labs (wholesale) + $120 in wholesale medications = ~$4,740/year</li>
+        <li><strong>Annual savings: ~$3,300</strong> — and dramatically better access to your physician</li>
+      </ul>
+
+      <h2>When DPC May Not Save You Money</h2>
+      <p>DPC is most cost-effective when: you use primary care regularly (4+ visits/year), you are on a high-deductible plan paying full price for care anyway, or you have chronic conditions requiring frequent check-ins. DPC is less financially compelling if: your employer covers a low-deductible plan with low copays, you never use primary care and are betting on staying healthy, or you need frequent specialist care (which DPC doesn't cover).</p>
+    `,
+    faqs: [
+      {
+        q: 'Can I use DPC and keep my regular insurance?',
+        a: "Yes, and most DPC patients do. DPC handles your primary care relationship — the physician you see for everyday health needs, chronic disease management, and preventive care. Your regular insurance (or a low-cost catastrophic alternative) handles hospitalizations, specialist visits, emergency care, and surgery. You're paying two things, but often for less total than insurance alone — because a lower-premium catastrophic plan paired with DPC frequently costs less than a comprehensive plan with high copays.",
+      },
+      {
+        q: 'Is DPC more affordable for families?',
+        a: "Often yes. Many DPC practices offer family plans at $150–$300/month — significantly less than adding family members to employer-sponsored insurance. Children's memberships are often $15–$50/month. If your family uses primary care frequently (pediatric visits, illness, sports physicals, management of any chronic conditions), DPC family plans often offer strong value.",
+      },
+      {
+        q: 'How do DPC practices make money if they charge so little?',
+        a: "DPC practices intentionally limit panel size to 300–600 patients (versus the 2,500–3,000 typical in insurance-based practices). Revenue comes entirely from membership fees — not from volume billing. This model removes the fee-for-service incentive to see as many patients as possible, and instead creates an incentive to keep patients healthy and avoid the need for specialist referrals and hospitalizations. Physicians often report higher career satisfaction under DPC than insurance-based practice.",
+      },
+      {
+        q: 'Can I pair DPC with an HSA?',
+        a: "Yes. The SECURE Act 2.0 and subsequent legislation confirmed that DPC membership fees are HSA-eligible expenses. You can use pre-tax HSA dollars to pay your DPC membership, reducing the effective cost by your marginal tax rate (22–37% for most earners). To use an HSA, you must be enrolled in an HSA-eligible high-deductible health plan for your catastrophic/wraparound coverage.",
+      },
+    ],
+  },
+  {
+    slug: 'dpc-for-small-business',
+    title: 'Direct Primary Care for Small Business Owners and the Self-Employed',
+    description: 'Self-employed people and small business owners pay the highest premiums in healthcare — and get the worst access. DPC is built for people like you. Here is why.',
+    content: `
+      <h2>The Self-Employed Healthcare Problem</h2>
+      <p>If you are self-employed — consultant, freelancer, solopreneur, small business owner — you already know the problem. Individual health insurance on the marketplace costs $400–$900/month for a solo adult, often with a $3,000–$6,000 deductible on top. You are paying $5,000–$10,000/year in premiums before your insurance does anything meaningful for routine care. And when you finally go to the doctor, you wait three weeks for a 15-minute appointment.</p>
+
+      <h2>Why DPC Was Practically Built for the Self-Employed</h2>
+      <p>Direct Primary Care solves multiple problems that matter specifically to self-employed people:</p>
+      <ul>
+        <li><strong>Predictable cost:</strong> $50–$150/month flat. No copays, no surprises, no bills.</li>
+        <li><strong>Same-day and next-day appointments:</strong> When you are self-employed, a sick day costs real money. Getting seen quickly is not a luxury — it is a business need.</li>
+        <li><strong>Direct physician access:</strong> Text, call, or message your physician directly. No call center, no nurse triage, no portal portal. Real access when you need it.</li>
+        <li><strong>Wholesale labs and medications:</strong> Self-employed people often pay full price for labs and medications (or pay inflated insurance rates). DPC wholesale pricing often beats both.</li>
+        <li><strong>HSA compatibility:</strong> Pair DPC with an HSA-eligible catastrophic plan for tax advantages on both the premium and the DPC membership.</li>
+      </ul>
+
+      <h2>The Self-Employed DPC Stack</h2>
+      <p>Most self-employed DPC patients build a stack: DPC membership ($75–$125/month) + a low-cost catastrophic or Bronze ACA plan for hospitalization coverage ($150–$350/month) + an HSA to cover labs, medications, and the DPC membership with pre-tax dollars. Total: $225–$475/month — compared to $600–$900/month for a comprehensive ACA plan where you are still paying copays and deductibles for care.</p>
+
+      <h2>Small Business Group DPC Options</h2>
+      <p>If you have employees, DPC can be offered as a group benefit. Several DPC practices offer small business group memberships — providing all employees with unlimited primary care access at a group rate. This is often significantly more affordable than group health insurance and can be offered alongside a traditional group plan or a health reimbursement arrangement (HRA).</p>
+    `,
+    faqs: [
+      {
+        q: 'Can I deduct my DPC membership as a self-employed health insurance deduction?',
+        a: "This is evolving tax territory. As of 2024, DPC membership fees may be deductible as a medical expense (subject to the 7.5% AGI threshold) but do not clearly qualify for the above-the-line self-employed health insurance deduction (which requires your coverage to be 'insurance'). Consult a tax professional for your specific situation. Using HSA funds for DPC membership is the cleaner tax strategy.",
+      },
+      {
+        q: 'What catastrophic plan should I pair with DPC?',
+        a: "For self-employed adults under 30, an ACA catastrophic plan (the lowest tier) is available specifically for this purpose. For adults over 30, a Bronze plan with a low premium and high deductible works well as a DPC companion — you are covered for hospitalizations and specialist care, while DPC handles everything your primary care physician can manage. Health sharing plans (Sedera, Zion HealthShare, Liberty HealthShare) are another option with lower monthly costs but fewer consumer protections.",
+      },
+      {
+        q: 'Can DPC provide employer letters or documentation for HRA purposes?',
+        a: "Yes. DPC practices can provide documentation of services for health reimbursement arrangements and other business health benefit structures. If you offer a Qualified Small Employer Health Reimbursement Arrangement (QSEHRA) or Individual Coverage HRA (ICHRA) to employees, DPC membership fees may be reimbursable through these arrangements. Confirm with your HRA administrator and a benefits advisor.",
+      },
+      {
+        q: 'Does DPC cover mental health?',
+        a: "Primary care-level mental health support — medication management for depression, anxiety, and ADHD; brief counseling; referrals to behavioral health specialists — is within the scope of many DPC physicians. DPC does not typically include therapy sessions (which require a licensed therapist or psychologist), but medication management for common mental health conditions is a standard part of primary care that your DPC physician can provide.",
+      },
+    ],
+  },
 ]
 
 interface PageProps {
