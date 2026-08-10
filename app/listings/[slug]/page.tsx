@@ -55,7 +55,7 @@ export default async function ListingDetailPage({ params }: PageProps) {
     .gte('viewed_at', monthStart)
   const monthlyViews = viewCount ?? 0
 
-  const isClaimed = listing.listing_tier !== 'unclaimed' && listing.listing_tier != null
+  const isClaimed = !!listing.claimed_at
 
   const jsonLd = {
     '@context': 'https://schema.org',
