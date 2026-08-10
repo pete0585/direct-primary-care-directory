@@ -55,13 +55,15 @@ export default async function ListingDetailPage({ params }: PageProps) {
     .gte('viewed_at', monthStart)
   const monthlyViews = viewCount ?? 0
 
+  const isClaimed = !!listing.claimed_at
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': ['MedicalBusiness', 'LocalBusiness', 'MedicalClinic'],
     name: listing.practice_name ?? listing.full_name,
     description: listing.bio ?? `Direct Primary Care practice in ${listing.city}, ${listing.state}`,
-    url: listing.website ?? `https://www.directprimarycarefinder.com/listings/${listing.slug}`,
-    telephone: listing.phone ?? undefined,
+    url: isClaimed ? (listing.website ?? undefined) : undefined,
+    telephone: isClaimed ? (listing.phone ?? undefined) : undefined,
     address: {
       '@type': 'PostalAddress',
       streetAddress: listing.address_line1 ?? undefined,
