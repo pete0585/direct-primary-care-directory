@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: '%s | DirectPrimaryCareFinder.com',
   },
   description:
-    'Find a Direct Primary Care practice near you. Flat monthly membership, no insurance required. Compare DPC doctors by price, specialty, and location — 2,000+ practices across 48 states.',
+    'Find Direct Primary Care near you. Flat monthly membership, no insurance required. Compare DPC doctors by price and location — 2,000+ practices across 48 states.',
   keywords: [
     'direct primary care near me',
     'DPC doctor',
