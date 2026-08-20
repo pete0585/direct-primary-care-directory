@@ -71,11 +71,12 @@ export default async function ClaimPage({ params, searchParams }: PageProps) {
     return <ClaimVerify listingId={id} monthlyViews={monthlyViews} />
   }
 
-  // Claim request form
+  // Claim request form — accept either UUID id or slug
+  const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)
   const { data: listing } = await supabase
     .from('dpc_listings')
     .select('id, full_name, practice_name, city, state, claimed_at')
-    .eq('id', id)
+    .eq(isUUID ? 'id' : 'slug', id)
     .single()
 
   if (!listing) notFound()
