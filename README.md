@@ -6,9 +6,9 @@
 - **Supabase:** fbuqrnzofktepkzyfmhy (shared Directories project, `dpc_` prefixed tables)
 - **Vercel Project:** prj_xtGpwqmm39yUaoVUxUrz1dpnB1rD
 - **GitHub:** pete0585/direct-primary-care-directory
-- **Stripe:** Verified $99/yr (`price_1Te9tAGzK9SibluevkPMOOrh`), Featured $199/yr (`price_1Te9tBGzK9Siblue8ldqeFl8`)
+- **Stripe:** Verified $99/yr (`price_REPLACE_ME`), Featured $199/yr (`price_REPLACE_ME`) — set `STRIPE_VERIFIED_PRICE_ID` and `STRIPE_FEATURED_PRICE_ID` in Vercel
 - **Resend domain:** mail.directprimarycarefinder.com (ID: `5841139b-6c96-4ade-9161-82726adf191e`)
-- **IndexNow key:** `86aa4c1fcbc64bb9fa7ce7e36c695be5`
+- **IndexNow key:** Set `INDEXNOW_KEY` in Vercel (do not commit the key)
 
 ## Stack
 
@@ -49,6 +49,7 @@ All env vars are pre-configured in the Vercel project by the bootstrap agent. Se
 | `STRIPE_FEATURED_PRICE_ID` | Stripe price ID for $199/yr Featured tier |
 | `RESEND_API_KEY` | Resend API key |
 | `INBOUND_WEBHOOK_SECRET` | Resend inbound email webhook secret |
+| `INDEXNOW_KEY` | IndexNow key (Vercel env only; never commit) |
 | `NEXT_PUBLIC_SITE_URL` | Full site URL (https://www.directprimarycarefinder.com) |
 
 ## Database Schema
