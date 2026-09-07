@@ -1,8 +1,7 @@
 import { MetadataRoute } from 'next'
 import { getAllSlugs, getStateCounts } from '@/lib/data'
+import { BASE, getCityPageFolders } from '@/lib/site'
 import { SPECIALTIES } from '@/lib/utils'
-
-const BASE = 'https://www.directprimarycarefinder.com'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [slugs, stateCounts] = await Promise.all([
@@ -37,5 +36,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }))
 
-  return [...staticPages, ...listingPages, ...statePages, ...categoryPages]
+  const cityPages: MetadataRoute.Sitemap = getCityPageFolders().map((folder) => ({
+    url: `${BASE}/dpc-doctors/${folder}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 0.8,
+  }))
+
+  return [...staticPages, ...listingPages, ...statePages, ...categoryPages, ...cityPages]
 }
