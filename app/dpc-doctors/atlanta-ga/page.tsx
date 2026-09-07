@@ -1,10 +1,12 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import { BASE } from "@/lib/site"
 import { createClient } from "@/lib/supabase/server"
 
 export const metadata: Metadata = {
   title: "Best Direct Primary Care in Atlanta, GA | Direct Primary Care Directory",
   description: "Find direct primary care in Atlanta, Georgia. 34+ listed. Filter by city and compare providers.",
+  alternates: { canonical: `${BASE}/dpc-doctors/atlanta-ga` },
 }
 
 async function getListings() {
