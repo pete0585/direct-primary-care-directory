@@ -1,41 +1,42 @@
 name: CI
-
 on:
   pull_request:
     branches: [main]
   push:
     branches: [main]
-
+  workflow_dispatch:
+permissions:
+  contents: read
 jobs:
   build:
-    name: TypeScript + Build
+    name: TypeScript + isolated build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: "npm"
-
-      - name: Install dependencies
+          node-version: '20'
+          cache: npm
+      - name: Install locked dependencies
         run: npm ci
-
-      - name: TypeScript type check
+      - name: TypeScript gate
         run: npx tsc --noEmit
-        # Runs even though next.config has ignoreBuildErrors: true
-        # This is the authoritative TypeScript gate
-
-      - name: Build
-        run: npm run build
+      - name: Build with explicit local empty-database fixture
+        run: |
+          node scripts/ci-database.cjs &
+          fixture_pid=$!
+          trap 'kill "$fixture_pid"' EXIT
+          for attempt in $(seq 1 20); do
+            curl --fail --silent http://127.0.0.1:8765/rest/v1/health >/dev/null && break
+            sleep 1
+          done
+          npm run build
         env:
-          # Placeholder values for CI — build uses ignoreBuildErrors + ignoreDuringBuilds
-          # so TypeScript and ESLint errors are caught by the tsc step above.
-          # Data fetching failures at build time are expected with placeholder credentials.
-          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
-          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key' }}
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY || 'placeholder-service-key' }}
-          NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY: ${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || 'pk_test_placeholder' }}
-          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY || 'sk_test_placeholder' }}
-          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY || 're_placeholder' }}
+          AIDAM_CI_FIXTURE: '1'
+          NEXT_PUBLIC_SUPABASE_URL: http://127.0.0.1:8765
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ci-fixture-anon
+          SUPABASE_SERVICE_ROLE_KEY: ci-fixture-service
+          SUPABASE_SERVICE_KEY: ci-fixture-service
+          RESEND_API_KEY: re_ci_fixture_no_delivery
+# This proves type safety and buildability, not production connectivity.
+# Production data/ownership paths are verified independently against deployed sites.
