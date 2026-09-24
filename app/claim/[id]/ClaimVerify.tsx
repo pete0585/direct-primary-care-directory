@@ -36,6 +36,24 @@ export default function ClaimVerify({ listingId, monthlyViews }: { listingId: st
         </div>
       </div>
 
+        {/* Studio Zero upsell */}
+        <div className="rounded-xl bg-blue-50 border border-blue-200 p-5 mb-6">
+          <h2 className="text-base font-semibold text-blue-900 mb-1">
+            Want to attract more patients?
+          </h2>
+          <p className="text-sm text-blue-700 mb-3">
+            Studio Zero helps healthcare providers grow their practice with AI-powered marketing — content, SEO, and visibility that compounds over time.
+          </p>
+          <a
+            href="https://studiozerohq.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block text-sm font-medium text-blue-700 underline hover:opacity-80"
+          >
+            Learn more at Studio Zero →
+          </a>
+        </div>
+
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <Link
           href={`/listings/${listingId}`}
