@@ -28,12 +28,21 @@ export default async function HomePage() {
             {totalCount > 0 ? `${totalCount.toLocaleString()}+ DPC Practices Nationwide` : 'National DPC Directory'}
           </p>
           <h1 className="font-display text-3xl sm:text-5xl font-bold leading-tight mb-4">
-            Your doctor should<br />
-            <span className="text-brand-teal">know your name.</span>
+            Find trusted direct primary care doctors near you
           </h1>
           <p className="font-body text-gray-300 text-lg sm:text-xl max-w-2xl mx-auto mb-10">
-            Find a Direct Primary Care practice near you — flat monthly membership,
-            no insurance required, no 7-minute appointments.
+            Browse DPC practices by location and membership model — and connect directly. Free, always.
+          </p>
+          <p className="text-sm text-gray-500 mt-4">
+            Are you a DPC doctor?{' '}
+            <a
+              href="https://studiozerohq.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:opacity-80"
+            >
+              List your practice free →
+            </a>
           </p>
 
           <Suspense>
