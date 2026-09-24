@@ -1,110 +1,46 @@
-import type { Metadata } from 'next'
-import { notFound } from 'next/navigation'
-import ClaimForm from './ClaimForm'
-import ClaimVerify from './ClaimVerify'
-import { createServiceClient } from '@/lib/supabase/server'
+'use client'
 
-interface PageProps {
-  params: Promise<{ id: string }>
-  searchParams: Promise<{ token?: string }>
-}
+import { Suspense, useState } from 'react'
+import { useParams, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
 
-export const metadata: Metadata = {
-  title: 'Claim Your DPC Practice Listing',
-  description: 'Verify ownership of your DPC practice listing on DirectPrimaryCareFinder.com.',
-}
-
-export default async function ClaimPage({ params, searchParams }: PageProps) {
-  const { id } = await params
-  const { token } = await searchParams
-
-  const supabase = await createServiceClient()
-
-  // Verify token flow
-  if (token) {
-    const { data: claim, error } = await supabase
-      .from('dpc_claims')
-      .select('*')
-      .eq('listing_id', id)
-      .eq('token', token)
-      .eq('verified', false)
-      .gt('expires_at', new Date().toISOString())
-      .single()
-
-    if (error || !claim) {
-      return (
-        <div className="max-w-lg mx-auto px-4 py-16 text-center">
-          <h1 className="font-display text-brand-navy text-xl font-bold mb-3">Invalid or Expired Link</h1>
-          <p className="font-body text-gray-600 mb-6">
-            This verification link has expired or is invalid. Please request a new one.
-          </p>
-          <a
-            href={`/claim/${id}`}
-            className="inline-block bg-brand-teal text-white font-body font-semibold px-6 py-2.5 rounded-lg hover:bg-brand-teal-dark transition-colors"
-          >
-            Request New Link
-          </a>
-        </div>
-      )
-    }
-
-    // Mark as verified
-    await supabase
-      .from('dpc_claims')
-      .update({ verified: true, verified_at: new Date().toISOString(), status: 'verified' })
-      .eq('id', claim.id)
-
-    await supabase
-      .from('dpc_listings')
-      .update({ claimed_at: new Date().toISOString(), claimed_by: claim.email, updated_at: new Date().toISOString() })
-      .eq('id', id)
-
-    const monthStart = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
-    const { count: viewCount } = await supabase
-      .from('listing_views')
-      .select('*', { count: 'exact', head: true })
-      .eq('directory_slug', 'direct-primary-care')
-      .eq('listing_id', id)
-      .gte('viewed_at', monthStart)
-    const monthlyViews = viewCount ?? 0
-
-    return <ClaimVerify listingId={id} monthlyViews={monthlyViews} />
+function ClaimForm() {
+  const { id } = useParams<{ id: string }>()
+  const token = useSearchParams().get('token')
+  const [email, setEmail] = useState('')
+  const [phone, setPhone] = useState('')
+  const [verified, setVerified] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+  async function submit(path: string, body: object, success: string) {
+    setBusy(true); setError(''); setMessage('')
+    try {
+      const response = await fetch(path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      const data = await response.json()
+      if (!response.ok || !data.success) throw new Error(data.error || 'The request was not completed.')
+      if (path.endsWith('/verify')) {
+        setVerified(true)
+        window.history.replaceState(null, '', `/claim/${id}`)
+      }
+      setMessage(success)
+    } catch (e) { setError(e instanceof Error ? e.message : 'The request failed. Please retry.') }
+    finally { setBusy(false) }
   }
-
-  // Claim request form — accept either UUID id or slug
-  const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id)
-  const { data: listing } = await supabase
-    .from('dpc_listings')
-    .select('id, full_name, practice_name, city, state, claimed_at')
-    .eq(isUUID ? 'id' : 'slug', id)
-    .single()
-
-  if (!listing) notFound()
-
-  if (listing.claimed_at) {
-    return (
-      <div className="max-w-lg mx-auto px-4 py-16 text-center">
-        <h1 className="font-display text-brand-navy text-xl font-bold mb-3">Already Claimed</h1>
-        <p className="font-body text-gray-600">
-          This listing has already been claimed. If you believe this is an error, contact us at{' '}
-          <a href="mailto:hello@directprimarycarefinder.com" className="text-brand-teal hover:underline">
-            hello@directprimarycarefinder.com
-          </a>
-        </p>
-      </div>
-    )
-  }
-
-  return (
-    <div className="max-w-lg mx-auto px-4 sm:px-6 py-12">
-      <div className="text-center mb-8">
-        <h1 className="font-display text-brand-navy text-2xl font-bold mb-2">Claim Your Listing</h1>
-        <p className="font-body text-gray-600">
-          Verify ownership of{' '}
-          <strong>{listing.practice_name ?? listing.full_name}</strong> in {listing.city}, {listing.state}.
-        </p>
-      </div>
-      <ClaimForm listingId={listing.id} listingName={listing.practice_name ?? listing.full_name} />
-    </div>
-  )
+  return <main className="mx-auto max-w-lg px-6 py-16">
+    <h1 className="text-3xl font-bold mb-4">{verified ? 'Manage your listing' : 'Claim your listing'}</h1>
+    <p className="mb-6">Verify the contact email already recorded for your listing. If that email is missing or outdated, contact directory support for an ownership review.</p>
+    {error && <p role="alert" className="rounded border border-red-300 bg-red-50 text-red-900 p-4 mb-4">{error}</p>}
+    {message && <p role="status" className="rounded border border-green-300 bg-green-50 text-green-900 p-4 mb-4">{message}</p>}
+    {verified ? <form className="space-y-4" onSubmit={e => { e.preventDefault(); void submit('/api/claim/phone', { listingId: id, phone }, 'Phone number saved and verified.') }}>
+      <label className="block">Public phone number<input className="block w-full border rounded p-3 mt-2" type="tel" required maxLength={40} value={phone} onChange={e => setPhone(e.target.value)} /></label>
+      <button disabled={busy} className="rounded bg-slate-900 text-white px-5 py-3 disabled:opacity-50">{busy ? 'Saving…' : 'Save phone number'}</button>
+    </form> : token ? <button disabled={busy} className="rounded bg-slate-900 text-white px-5 py-3 disabled:opacity-50" onClick={() => void submit('/api/claim/verify', { listingId: id, token }, 'Ownership verified. You can now update your phone number.')}>{busy ? 'Verifying…' : 'Confirm ownership'}</button> : <form className="space-y-4" onSubmit={e => { e.preventDefault(); void submit('/api/claim', { listingId: id, email }, 'Verification email accepted. Check your inbox for the confirmation link.') }}>
+      <label className="block">Listing contact email<input className="block w-full border rounded p-3 mt-2" type="email" required value={email} onChange={e => setEmail(e.target.value)} /></label>
+      <button disabled={busy} className="rounded bg-slate-900 text-white px-5 py-3 disabled:opacity-50">{busy ? 'Requesting…' : 'Send verification email'}</button>
+    </form>}
+    <Link className="block mt-8 underline" href="/">Return to directory</Link>
+  </main>
 }
+
+export default function ClaimPage() { return <Suspense fallback={<p className="p-8">Loading claim…</p>}><ClaimForm /></Suspense> }
