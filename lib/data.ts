@@ -37,7 +37,6 @@ export async function getListings(
   if (accepting_new_patients) query = query.eq('accepting_new_patients', true)
   if (accepts_children) query = query.eq('accepts_children', true)
   if (fee_max) query = query.lte('monthly_fee_min', fee_max)
-  if (tier) query = query.eq('listing_tier', tier)
 
   const { data, count, error } = await query
   if (error) throw error
@@ -103,7 +102,6 @@ export async function getFeaturedListings(): Promise<Listing[]> {
   const { data, error } = await supabase
     .from('dpc_listings')
     .select('*')
-    .in('listing_tier', ['featured', 'verified'])
     .eq('is_active', true)
     .eq('is_approved', true)
     .limit(6)
