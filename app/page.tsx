@@ -210,18 +210,14 @@ export default async function HomePage() {
           </h2>
           <p className="font-body text-gray-600 mb-6">
             List your practice for free. Patients searching &ldquo;direct primary care near me&rdquo; are landing
-            here right now. Upgrade to Verified ($99/yr) to show your photo, bio, pricing, and get
-            priority placement.
-          </p>
+            here right now.</p>
           <Link
             href="/submit"
             className="inline-block bg-brand-teal hover:bg-brand-teal-dark text-white font-body font-semibold px-8 py-3.5 rounded-xl transition-colors"
           >
             Add Your Practice — Free
           </Link>
-          <p className="text-gray-400 font-body text-xs mt-3">
-            One new patient from your listing = 12× ROI on your first year of Verified.
-          </p>
+          
         </div>
       </section>
     </div>
