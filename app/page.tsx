@@ -5,6 +5,7 @@ import SearchBar from '@/components/SearchBar'
 import ListingCard from '@/components/ListingCard'
 import { getFeaturedListings, getTotalCount, getStateCounts } from '@/lib/data'
 import { stateNameFromAbbr, formatSpecialty, SPECIALTIES } from '@/lib/utils'
+import NewsletterSignup from '@/components/NewsletterSignup'
 
 export const revalidate = 3600
 
