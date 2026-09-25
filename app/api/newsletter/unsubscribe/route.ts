@@ -1,51 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server'
-
-export const runtime = 'nodejs'
-
-// RFC 8058 one-click unsubscribe support
-export async function POST(req: NextRequest) {
-  let email: string, niche: string
-
-  // Handle List-Unsubscribe-Post (RFC 8058)
-  const contentType = req.headers.get('content-type') ?? ''
-  if (contentType.includes('application/x-www-form-urlencoded')) {
-    const text = await req.text()
-    const params = new URLSearchParams(text)
-    if (params.get('List-Unsubscribe') === 'One-Click') {
-      const url = new URL(req.url)
-      email = url.searchParams.get('email') ?? ''
-      niche = 'direct-primary-care'
-    } else {
-      return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
-    }
-  } else {
-    try {
-      const body = await req.json()
-      email = body.email
-      niche = body.niche ?? 'direct-primary-care'
-    } catch {
-      return NextResponse.json({ error: 'Invalid request' }, { status: 400 })
-    }
-  }
-
-  if (!email) return NextResponse.json({ error: 'Email required' }, { status: 400 })
-
-  const token = process.env.NEWSLETTER_SUBMIT_TOKEN
-  if (!token) return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
-
-  try {
-    const res = await fetch('https://aidam.studiozerohq.com/api/newsletter/unsub', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-      body: JSON.stringify({ email, niche }),
-    })
-    if (!res.ok) {
-      const data = await res.json()
-      return NextResponse.json({ error: data.error ?? 'Unsubscribe failed' }, { status: res.status })
-    }
-    return NextResponse.json({ success: true })
-  } catch (e) {
-    console.error('Unsubscribe error:', e)
-    return NextResponse.json({ error: 'Service unavailable' }, { status: 503 })
-  }
+import {NextResponse} from 'next/server'
+export const runtime='nodejs'
+export async function POST(req:Request){
+ try{
+  const url=new URL(req.url),form=(req.headers.get('content-type')??'').includes('application/x-www-form-urlencoded')
+  const raw=await req.text();if(Buffer.byteLength(raw)>8192)return NextResponse.json({error:'Request too large'},{status:413})
+  const body=form?Object.fromEntries(new URLSearchParams(raw)):JSON.parse(raw)
+  if(!body||typeof body!=='object'||Array.isArray(body))return NextResponse.json({error:'Invalid request'},{status:400})
+  const token=process.env.NEWSLETTER_SUBMIT_TOKEN
+  if(form && (body['List-Unsubscribe']!=='One-Click' || !url.pathname.endsWith('/unsubscribe')))return NextResponse.json({error:'Invalid request'},{status:400})
+  const input={token:body.token??url.searchParams.get("token"),niche:"direct-primary-care"}
+  const response=await fetch('https://aidam.studiozerohq.com/api/newsletter/unsubscribe',{method:'POST',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token,'X-Newsletter-Client':(req.headers.get('x-forwarded-for')??'unknown').split(',')[0].trim()},body:JSON.stringify(input),cache:'no-store',signal:AbortSignal.timeout(30000)})
+  return NextResponse.json(await response.json(),{status:response.status,headers:{'Cache-Control':'no-store'}})
+ }catch{return NextResponse.json({error:'Newsletter request failed; please try again later'},{status:503})}
 }
