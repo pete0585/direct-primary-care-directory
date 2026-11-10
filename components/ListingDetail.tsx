@@ -145,7 +145,7 @@ export default function ListingDetail({ listing, monthlyViews }: ListingDetailPr
                   <Phone className="w-4 h-4 text-brand-teal shrink-0" aria-label="phone"/>
                   <span className="font-body text-gray-700 text-sm">{listing.phone}</span>
                 </a>)}
-              {listing.website && (<a href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface transition-colors mb-2">
+              {listing.website && (<a data-directory-action="website_click" href={listing.website.startsWith('http') ? listing.website : `https://${listing.website}`} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-lg hover:bg-surface transition-colors mb-2">
                   <Globe className="w-4 h-4 text-brand-teal shrink-0" aria-label="website"/>
                   <span className="font-body text-gray-700 text-sm truncate">Visit Website</span>
                 </a>)}
