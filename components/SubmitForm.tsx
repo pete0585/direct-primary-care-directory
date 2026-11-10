@@ -47,12 +47,8 @@ export default function SubmitForm() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
-            if (!res.ok) {
-                const body = await res.json() as {
-                    error?: string;
-                };
-                throw new Error(body.error ?? 'Submission failed');
-            }
+            const body = await res.json();
+            if (!res.ok || body.success !== true || body.status !== 'pending_review') throw new Error(body.error || 'Your submission could not be confirmed. Keep your entries and retry.');
             setSubmitted(true);
         }
         catch (err) {
@@ -63,7 +59,7 @@ export default function SubmitForm() {
         return (<div className="text-center py-12">
         <CheckCircle className="w-14 h-14 text-brand-teal mx-auto mb-4" aria-label="success"/>
         <h2 className="font-display text-brand-navy text-xl font-bold mb-2">Practice Submitted!</h2>
-        <p className="font-body text-gray-600 max-w-md mx-auto"> Listings are free. Public contact details are available without payment. </p>
+        <p className="font-body text-gray-600 max-w-md mx-auto"> Your free submission has been saved for review. It is not public yet. No verification email has been sent. </p>
       </div>);
     }
     return (<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -184,6 +180,6 @@ export default function SubmitForm() {
         {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" aria-label="loading"/>}
         Submit My Practice — Free Listing
       </button>
-      <p className="text-center text-xs font-body text-gray-400"> Listings are free. Public contact details are available without payment. </p>
+      <p className="text-center text-xs font-body text-gray-400"> Free submissions are reviewed before publication. Your entries are not saved until confirmation. </p>
     </form>);
 }
